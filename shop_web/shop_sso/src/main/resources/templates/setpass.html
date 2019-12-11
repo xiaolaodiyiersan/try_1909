@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/forget/setpass" method="POST">
+    请输入密码：<input type="text" name="password"  >
+    请确认密码：<input type="text" >
+    <input type="hidden" name="token" th:value="${#request.getParameter('token')}">
+    <input type="submit" value="修改密码">
+</form>
+<span th:if="${msg != null}">
+    <font th:text="${msg}"></font>
+</span>
+</body>
+</html>

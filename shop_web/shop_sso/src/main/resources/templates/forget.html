@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#request.getContextPath()+'/'}">
+    <script src="js/jquery.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function toupdate(a) {
+            waite(a);
+            var username = $("input").val();
+            $(a).attr("disabled", "disabled")
+            $.ajax({
+                url: "/forget/toSetPass",
+                data: {"username": username},
+                success: function (data) {
+                    if (data.code == "200") {
+                        var email = data.data.showemail;
+                        var address = data.data.toemail;
+                        $("#msg").html("你的邮箱是"+email+",<a href='http://"+address +"'>点击跳转</a>");
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            })
+        }
+
+
+        var time = 10;
+
+        function waite(a) {
+            if (time == 0) {
+                $(a).removeAttr("disabled");
+                $(a).html("找回密码")
+                time = 10
+                return
+            }
+            $(a).html("邮件已发送(" + time + ")");
+            setTimeout(function () {
+                time--;
+                waite(a);
+            }, 1000)
+        }
+
+
+    </script>
+</head>
+
+<body>
+用户名：<input type="text"><span id="msg"></span><br>
+<button onclick="toupdate(this)">找回密码</button>
+</body>
+</html>
